@@ -220,7 +220,7 @@ export default async function VenuePage({ params }: PageProps) {
               <div className="bg-white rounded-lg border border-gray-200 p-6">
                 <h2 className="text-xl font-semibold text-gray-900 mb-4">Features</h2>
                 <div className="flex flex-wrap gap-2">
-                  {venue.features.map((feature, index) => (
+                  {venue.features.map((feature: string, index: number) => (
                     <span
                       key={index}
                       className="bg-primary-100 text-primary-800 px-3 py-1 rounded-full text-sm font-medium"

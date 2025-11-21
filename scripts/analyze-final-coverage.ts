@@ -15,7 +15,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 async function analyzeFinalCoverage() {
   try {
     console.log('🎯 LOCATION COVERAGE ANALYSIS - FINAL RESULTS\n')
-    console.log('='*60)
+    console.log('='.repeat(60))
 
     // Get total venues
     const { data: allVenues, count: totalVenues } = await supabase
@@ -55,7 +55,7 @@ async function analyzeFinalCoverage() {
     console.log(`Coverage: ${((venuesWithProperRegions / totalVenues!) * 100).toFixed(1)}%`)
 
     console.log('\n🚀 NEWLY CREATED LOCATION PAGES:')
-    console.log('='*40)
+    console.log('='.repeat(40))
 
     // Show new regions with venue counts (sorted by venue count)
     const newRegions = [
@@ -83,7 +83,7 @@ async function analyzeFinalCoverage() {
     console.log(`Total venues now with dedicated pages: ${newVenuesCovered}`)
 
     console.log('\n🎯 TOP PERFORMING LOCATIONS:')
-    console.log('='*30)
+    console.log('='.repeat(30))
 
     // Show top regions by venue count
     const topRegions = Object.entries(regionCountMap)
@@ -97,7 +97,7 @@ async function analyzeFinalCoverage() {
     })
 
     console.log('\n🔧 REMAINING OPTIMIZATION OPPORTUNITIES:')
-    console.log('='*45)
+    console.log('='.repeat(45))
 
     if (venuesInOther > 0) {
       console.log(`• ${venuesInOther} venues still in "Other" category`)
@@ -119,7 +119,7 @@ async function analyzeFinalCoverage() {
     }
 
     console.log('\n🎉 IMPACT SUMMARY:')
-    console.log('='*20)
+    console.log('='.repeat(20))
     console.log(`• Created ${newRegionStats.length} new location pages`)
     console.log(`• Improved SEO for ${newVenuesCovered} venues`)
     console.log(`• Increased location coverage from ~18 to ${totalRegions} regions`)

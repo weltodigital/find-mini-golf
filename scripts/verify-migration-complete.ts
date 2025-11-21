@@ -15,7 +15,7 @@ const supabase = createClient(supabaseUrl, supabaseKey)
 async function verifyMigrationComplete() {
   try {
     console.log('🎯 FINAL MIGRATION VERIFICATION\n')
-    console.log('='*50)
+    console.log('='.repeat(50))
 
     // Check for any venues still in "Other"
     const { data: otherVenues, count: otherCount } = await supabase
@@ -66,7 +66,7 @@ async function verifyMigrationComplete() {
       .slice(0, 15)
 
     console.log('\n🏆 TOP REGIONS BY VENUE COUNT:')
-    console.log('='*35)
+    console.log('='.repeat(35))
     topRegions.forEach(([region, count], index) => {
       const emoji = index === 0 ? '🥇' : index === 1 ? '🥈' : index === 2 ? '🥉' : '🏅'
       console.log(`${emoji} ${region}: ${count} venues`)
@@ -74,7 +74,7 @@ async function verifyMigrationComplete() {
 
     // Test a few sample location pages
     console.log('\n🌐 SAMPLE LOCATION PAGES:')
-    console.log('='*30)
+    console.log('='.repeat(30))
 
     const sampleRegions = ['Herne Bay', 'Bognor Regis', 'Henley-on-Thames', 'Aberdeen', 'Margate']
     for (const region of sampleRegions) {
@@ -93,7 +93,7 @@ async function verifyMigrationComplete() {
     }
 
     console.log('\n🎉 MIGRATION IMPACT:')
-    console.log('='*20)
+    console.log('='.repeat(20))
     console.log(`• From 40 to ${totalRegions} location pages (+${totalRegions! - 40} new pages)`)
     console.log(`• Every venue now has a dedicated SEO-optimized location page`)
     console.log(`• Massive improvement in local search potential`)

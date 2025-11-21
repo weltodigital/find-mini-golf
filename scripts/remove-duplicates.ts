@@ -37,17 +37,18 @@ async function removeDuplicates() {
 
     // Find duplicates and prepare for deletion
     const toDelete: string[] = []
-    const duplicateGroups = Object.entries(groups).filter(([key, venues]) => venues.length > 1)
+    const duplicateGroups = Object.entries(groups).filter(([key, venues]) => (venues as any[]).length > 1)
 
     console.log(`Found ${duplicateGroups.length} venue groups with duplicates\n`)
 
     duplicateGroups.forEach(([key, venueGroup]) => {
+      const venues = venueGroup as any[]
       // Keep the first one, delete the rest
       const [nameAddr] = key.split('|')
-      console.log(`"${venueGroup[0].name}" - keeping 1, removing ${venueGroup.length - 1} duplicates`)
+      console.log(`"${venues[0].name}" - keeping 1, removing ${venues.length - 1} duplicates`)
 
       // Sort by created date if available, otherwise by ID, and keep the first one
-      venueGroup.sort((a, b) => {
+      venues.sort((a: any, b: any) => {
         if (a.created_at && b.created_at) {
           return new Date(a.created_at).getTime() - new Date(b.created_at).getTime()
         }
@@ -55,7 +56,7 @@ async function removeDuplicates() {
       })
 
       // Add all but the first to deletion list
-      venueGroup.slice(1).forEach(venue => {
+      venues.slice(1).forEach((venue: any) => {
         toDelete.push(venue.id)
       })
     })

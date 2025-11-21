@@ -127,7 +127,7 @@ async function migrateToSupabase() {
     console.log(`Found ${venues.length} venues to migrate`)
 
     // Create regions first
-    const regions = [...new Set(venues.map(v => v.region))]
+    const regions = Array.from(new Set(venues.map(v => v.region)))
     console.log(`Creating ${regions.length} regions...`)
 
     for (const regionName of regions) {

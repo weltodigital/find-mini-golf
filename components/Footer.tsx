@@ -1,5 +1,5 @@
 import Link from 'next/link'
-import { MapPin } from 'lucide-react'
+import Image from 'next/image'
 
 export default function Footer() {
   return (
@@ -7,14 +7,14 @@ export default function Footer() {
       <div className="container mx-auto px-4 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <Link href="/" className="flex items-center gap-2 mb-4">
-              <div className="w-8 h-8 bg-primary-500 rounded-lg flex items-center justify-center">
-                <MapPin className="w-5 h-5 text-white" />
-              </div>
-              <div>
-                <h1 className="text-xl font-bold text-white">Find Mini Golf</h1>
-                <p className="text-xs text-gray-400">Near You</p>
-              </div>
+            <Link href="/" className="inline-block mb-4">
+              <Image
+                src="/logo.png"
+                alt="Find Mini Golf"
+                width={160}
+                height={80}
+                className="h-10 w-auto brightness-0 invert"
+              />
             </Link>
             <p className="text-sm text-gray-400 leading-relaxed">
               Find the best mini golf venues across the UK. From adventure golf to crazy golf,
@@ -28,7 +28,7 @@ export default function Footer() {
               <li><Link href="/" className="hover:text-primary-400 transition-colors">Home</Link></li>
               <li><Link href="/uk" className="hover:text-primary-400 transition-colors">All Venues</Link></li>
               <li><Link href="/uk" className="hover:text-primary-400 transition-colors">UK Locations</Link></li>
-              <li><Link href="/search" className="hover:text-primary-400 transition-colors">Search</Link></li>
+              <li><Link href="/uk" className="hover:text-primary-400 transition-colors">Browse Venues</Link></li>
             </ul>
           </div>
 

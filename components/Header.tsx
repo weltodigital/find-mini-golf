@@ -2,7 +2,6 @@
 
 import Link from 'next/link'
 import Image from 'next/image'
-import { Search } from 'lucide-react'
 
 export default function Header() {
   return (
@@ -20,24 +19,8 @@ export default function Header() {
             />
           </Link>
 
-          <nav className="hidden md:flex items-center gap-6">
-            <Link href="/" className="text-gray-600 hover:text-primary-600 transition-colors">
-              Home
-            </Link>
-            <Link href="/uk" className="text-gray-600 hover:text-primary-600 transition-colors">
-              All Venues
-            </Link>
-            <Link href="/uk" className="text-gray-600 hover:text-primary-600 transition-colors">
-              Locations
-            </Link>
-            <Link href="/about" className="text-gray-600 hover:text-primary-600 transition-colors">
-              About
-            </Link>
-          </nav>
-
-          <Link href="/uk" className="btn-primary flex items-center gap-2">
-            <Search className="w-4 h-4" />
-            <span className="hidden sm:inline">Search</span>
+          <Link href="/uk" className="btn-primary">
+            UK Mini Golf
           </Link>
         </div>
       </div>

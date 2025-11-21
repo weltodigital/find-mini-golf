@@ -16,10 +16,21 @@ export default function Footer() {
                 className="h-10 w-auto brightness-0 invert"
               />
             </Link>
-            <p className="text-sm text-gray-400 leading-relaxed">
+            <p className="text-sm text-gray-400 leading-relaxed mb-4">
               Find the best mini golf venues across the UK. From adventure golf to crazy golf,
               discover your next fun day out.
             </p>
+            <div className="text-sm text-gray-400">
+              <p className="mb-2">
+                <span className="text-white font-medium">Contact:</span>{' '}
+                <a href="mailto:findminigolf@weltodigital.com" className="text-primary-400 hover:text-primary-300 transition-colors">
+                  findminigolf@weltodigital.com
+                </a>
+              </p>
+              <p className="text-xs">
+                Add your venue? Email us above!
+              </p>
+            </div>
           </div>
 
           <div>
@@ -33,10 +44,20 @@ export default function Footer() {
           </div>
         </div>
 
-        <div className="border-t border-gray-800 mt-8 pt-8 text-center">
-          <p className="text-sm text-gray-400">
-            © {new Date().getFullYear()} Find Mini Golf. All rights reserved.
-          </p>
+        <div className="border-t border-gray-800 mt-8 pt-8">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-4">
+            <p className="text-sm text-gray-400">
+              © {new Date().getFullYear()} Find Mini Golf. All rights reserved.
+            </p>
+            <div className="flex items-center gap-6 text-sm text-gray-400">
+              <Link href="/privacy" className="hover:text-primary-400 transition-colors">
+                Privacy Policy
+              </Link>
+              <a href="/sitemap.xml" className="hover:text-primary-400 transition-colors" target="_blank" rel="noopener">
+                Sitemap
+              </a>
+            </div>
+          </div>
         </div>
       </div>
     </footer>

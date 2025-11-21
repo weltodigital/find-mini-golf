@@ -3,48 +3,54 @@ import { Search, MapPin, Star, Users } from 'lucide-react'
 import Header from '@/components/Header'
 import Footer from '@/components/Footer'
 import Map from '@/components/Map'
+import { supabase } from '@/lib/supabase'
+import { createSlug, getRegionSlug } from '@/lib/utils'
 
-// Mock data for demonstration - will be replaced with real data
-const featuredVenues = [
-  {
-    id: '1',
-    name: 'Jungle Rumble Adventure Golf - London',
-    address: 'Putney High Street, London',
-    latitude: 51.4644,
-    longitude: -0.2156,
-    region: 'London',
-    website: 'https://example.com',
-    rating: 4.5
-  },
-  {
-    id: '2',
-    name: 'Mr Mulligans Cheltenham',
-    address: 'Henrietta Street, Cheltenham',
-    latitude: 51.9037,
-    longitude: -2.0759,
-    region: 'Cheltenham',
-    website: 'https://example.com',
-    rating: 4.8
-  },
-  {
-    id: '3',
-    name: 'Swingers Crazy Golf - West End',
-    address: 'John Prince\'s Street, London',
-    latitude: 51.5160,
-    longitude: -0.1434,
-    region: 'London',
-    website: 'https://example.com',
-    rating: 4.3
+async function getFeaturedVenues() {
+  try {
+    const { data: venues, error } = await supabase
+      .from('venues')
+      .select('id, name, address, latitude, longitude, region, website, rating')
+      .not('rating', 'is', null)
+      .order('rating', { ascending: false })
+      .limit(6)
+
+    if (error) throw error
+    return venues || []
+  } catch (error) {
+    console.error('Error fetching featured venues:', error)
+    return []
   }
-]
+}
 
-const stats = [
-  { label: 'Mini Golf Venues', value: '553+', icon: MapPin },
-  { label: 'Regions Covered', value: '20+', icon: Star },
-  { label: 'Happy Visitors', value: '10K+', icon: Users }
-]
+async function getStats() {
+  try {
+    const [venuesResult, regionsResult] = await Promise.all([
+      supabase.from('venues').select('id', { count: 'exact', head: true }),
+      supabase.from('regions').select('id', { count: 'exact', head: true })
+    ])
 
-export default function HomePage() {
+    const venueCount = venuesResult.count || 0
+    const regionCount = regionsResult.count || 0
+
+    return [
+      { label: 'Mini Golf Venues', value: `${venueCount}+`, icon: MapPin },
+      { label: 'Regions Covered', value: `${regionCount}+`, icon: Star },
+      { label: 'Happy Visitors', value: '10K+', icon: Users }
+    ]
+  } catch (error) {
+    console.error('Error fetching stats:', error)
+    return [
+      { label: 'Mini Golf Venues', value: '500+', icon: MapPin },
+      { label: 'Regions Covered', value: '120+', icon: Star },
+      { label: 'Happy Visitors', value: '10K+', icon: Users }
+    ]
+  }
+}
+
+export default async function HomePage() {
+  const featuredVenues = await getFeaturedVenues()
+  const stats = await getStats()
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
@@ -61,11 +67,11 @@ export default function HomePage() {
             find your perfect day out.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/search" className="bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center gap-2">
+            <Link href="/uk" className="bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-lg transition-colors duration-200 flex items-center gap-2">
               <Search className="w-5 h-5" />
               Find Venues Near You
             </Link>
-            <Link href="/venues" className="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
+            <Link href="/uk" className="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
               Browse All Venues
             </Link>
           </div>
@@ -115,32 +121,40 @@ export default function HomePage() {
             Check out some of our most popular mini golf venues across the UK.
           </p>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-6xl mx-auto">
-            {featuredVenues.map((venue) => (
-              <div key={venue.id} className="card p-6">
-                <h3 className="text-xl font-semibold text-gray-900 mb-3">
-                  <Link href={`/venues/${venue.id}`} className="hover:text-primary-600 transition-colors">
-                    {venue.name}
-                  </Link>
-                </h3>
-                <div className="flex items-start gap-2 text-gray-600 mb-3">
-                  <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
-                  <span className="text-sm">{venue.address}</span>
-                </div>
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-primary-600">{venue.region}</span>
-                  <div className="flex items-center gap-1 text-yellow-600">
-                    <Star className="w-4 h-4 fill-current" />
-                    <span className="text-sm font-medium">{venue.rating}</span>
+            {featuredVenues.map((venue) => {
+              const regionSlug = getRegionSlug(venue.region)
+              const venueSlug = createSlug(venue.name)
+              const venueUrl = `/uk/${regionSlug}/${venueSlug}`
+
+              return (
+                <div key={venue.id} className="card p-6">
+                  <h3 className="text-xl font-semibold text-gray-900 mb-3">
+                    <Link href={venueUrl} className="hover:text-primary-600 transition-colors">
+                      {venue.name}
+                    </Link>
+                  </h3>
+                  <div className="flex items-start gap-2 text-gray-600 mb-3">
+                    <MapPin className="w-4 h-4 mt-1 flex-shrink-0" />
+                    <span className="text-sm">{venue.address}</span>
                   </div>
+                  <div className="flex items-center justify-between mb-4">
+                    <span className="text-sm font-medium text-primary-600">{venue.region}</span>
+                    {venue.rating && (
+                      <div className="flex items-center gap-1 text-yellow-600">
+                        <Star className="w-4 h-4 fill-current" />
+                        <span className="text-sm font-medium">{venue.rating.toFixed(1)}</span>
+                      </div>
+                    )}
+                  </div>
+                  <Link href={venueUrl} className="btn-primary w-full text-center">
+                    View Details
+                  </Link>
                 </div>
-                <Link href={`/venues/${venue.id}`} className="btn-primary w-full text-center">
-                  View Details
-                </Link>
-              </div>
-            ))}
+              )
+            })}
           </div>
           <div className="text-center mt-12">
-            <Link href="/venues" className="btn-secondary">
+            <Link href="/uk" className="btn-secondary">
               View All Venues
             </Link>
           </div>

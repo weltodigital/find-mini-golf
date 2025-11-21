@@ -214,9 +214,9 @@ export default async function UKLocationsPage() {
             We're always adding new venues to our directory. If you know of a great mini golf venue
             that's not listed, let us know and we'll add it to help others discover it too.
           </p>
-          <Link href="/contact" className="bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-lg transition-colors duration-200">
-            Suggest a Venue
-          </Link>
+          <a href="mailto:findminigolf@weltodigital.com" className="bg-white text-primary-600 hover:bg-primary-50 font-semibold py-3 px-8 rounded-lg transition-colors duration-200 inline-block">
+            findminigolf@weltodigital.com
+          </a>
         </section>
       </div>
 
